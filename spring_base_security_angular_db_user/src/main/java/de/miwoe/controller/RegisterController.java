@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import de.miwoe.auth.CustomPasswordEncoder;
 import de.miwoe.model.User;
 import de.miwoe.model.UserRole;
 import de.miwoe.repository.UserRepository;
@@ -24,6 +25,9 @@ public class RegisterController {
 	@Autowired
 	UserRoleRepository userRoleRepository;
 	
+	@Autowired
+	CustomPasswordEncoder customPasswordEncoder;
+	
 	@RequestMapping(value= "/registeruser", method = RequestMethod.POST)
 	public @ResponseBody User createUser(@RequestBody User user) {
 		Collection<UserRole>  userRoles = new ArrayList<>();
@@ -31,6 +35,7 @@ public class RegisterController {
 		userRole.setRole("IAMGROOT");
 		userRoles.add(userRole);
 		userRole.setUser(user);
+		user.setPassword(customPasswordEncoder.encode(user.getPassword()));
 		user.setUserRoles(userRoles);
 		User persistedUser = userRepository.save(user);
 		
