@@ -1,3 +1,7 @@
+# Ziel
+
+Einfache Konfiguration eines Spring Projekts mit Basic Auth
+
 # Vorgehen
 
 
