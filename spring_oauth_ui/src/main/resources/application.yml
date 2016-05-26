@@ -1,0 +1,35 @@
+debug: true
+
+spring:
+  aop:
+    proxy-target-class: true
+
+
+security:
+  user:
+    password: none
+  oauth2:
+    client:
+      accessTokenUri: http://localhost:9999/uaa/oauth/token
+      userAuthorizationUri: http://localhost:9999/uaa/oauth/authorize
+      clientId: acme
+      clientSecret: acmesecret
+    resource:
+      jwt:
+        keyValue: |
+          -----BEGIN PUBLIC KEY-----
+          MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAspASu+9F0AaLl8eX6vUVEfLDco9fUBw9Ap2fhRcHiXs2TLjoJCK/qzleTE8b+Kn/cTToc7TlsrJ10R+ynAI790qZoymoZ2SYiVeOd5Rqw10ZaGeWeWJRYZak/u4hduDUnOiIY/T1IPR+2ikoZUeSciI6FkSoxNn8vtvHUYRydpDdqeJafEyXep0e9f2v8TiYZ41F15LvXgj8fmpZyV6faNPvMwxyw3HI10e8yb7C3eSWHZAonpEmOIlDb3t5/egXdT14lwGeCfM3P9Pf9V1WbyZ3XNlApTVKS75y9D3voENrUbpBmzvvNpKX69ioIpFclIhzWtmHGuHqmUyc5VMVaQIDAQAB
+          -----END PUBLIC KEY-----
+
+zuul:
+  routes:
+    resource:
+      path: /resource/**
+      url: http://localhost:9000/resource
+    user:
+      path: /user/**
+      url: http://localhost:9999/uaa/user
+
+logging:
+  level:
+    org.springframework.security: DEBUG
